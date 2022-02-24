@@ -11,12 +11,29 @@
 # 
 # 24-Feb-2022 - 1.0.0 - Creating basic script.
 
-import pyfiglet,sys
+import pyfiglet,sys,time,hashlib
 
 def section_print(title):
-    print("\n" + "=" * 50)
-    print(title)
-    print("=" * 50 + "\n")
+        print("\n" + "=" * 50)
+        print(title)
+        print("=" * 50 + "\n")
+
+
+def hash_cracker(wordlist, type, input):
+        with open(f"wordlists\{wordlist}", 'r') as file:
+                start = time.time()
+                for line in file.readlines():
+                        if type == 'md5':
+                                hash_ob = hashlib.md5(line.strip().encode())
+                        elif type == 'sha256':
+                                hash_ob = hashlib.sha256(line.strip().encode())
+                        
+                        hashed_pass = hash_ob.hexdigest()
+                        if hashed_pass == input:
+                                end = time.time()
+                                print(f"Hash Cracker\n |  Wordlist : {wordlist}.\n |  Hash Type : {type}.\n |  Hash : {input}.\n |  Password founded : {line.strip()}\n |_ Time elapsed : {end - start}s.")
+                                exit(0)
+        
 
 
 def menu():  
