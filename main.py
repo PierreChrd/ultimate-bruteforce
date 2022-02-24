@@ -8,10 +8,11 @@
 # not use this tool.
 #
 # by Pierre CHAUSSARD & Nathan TEBOUL
-# 
+#
 # 24-Feb-2022 - 1.0.0 - Creating basic script.
 
 import pyfiglet,sys,time,hashlib
+import paramiko
 
 def section_print(title):
         print("\n" + "=" * 50)
@@ -36,7 +37,7 @@ def hash_cracker(wordlist, type, input):
         
 
 
-def menu():  
+def menu():
         ascii_banner = pyfiglet.figlet_format("BruteForce.PY")
         print(ascii_banner)
 
@@ -47,6 +48,15 @@ def menu():
         elif x == 2:
                 section_print("HTTP BruteForce")
 
+def ssh_connect(ip, username, password, port=22):
+    try:
+        ssh = paramiko.SSHClient()
+        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        ssh.connect(ip, port, username, password)
+
+        return (True, password)
+    except:
+        return False
 
 try:
         menu()
