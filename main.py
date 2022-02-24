@@ -13,10 +13,26 @@
 
 import pyfiglet,sys
 
+def section_print(title):
+    print("\n" + "=" * 50)
+    print(title)
+    print("=" * 50 + "\n")
+
+
+def menu():  
+        ascii_banner = pyfiglet.figlet_format("BruteForce.PY")
+        print(ascii_banner)
+
+        x = int(input("Choose your service :\n 1. SSH.\n 2. HTTP.\n\n>"))
+
+        if x == 1:
+                section_print("SSH BruteForce")
+        elif x == 2:
+                section_print("HTTP BruteForce")
+
 
 try:
-    ascii_banner = pyfiglet.figlet_format("BruteForce.PY")
-    print(ascii_banner)
+        menu()
 
 except KeyboardInterrupt:
         print("\n/!\ Exiting Program !")
