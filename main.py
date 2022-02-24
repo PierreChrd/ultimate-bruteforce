@@ -8,6 +8,16 @@
 # not use this tool.
 #
 # by Pierre CHAUSSARD & Nathan TEBOUL
-#
 # 
+# 24-Feb-2022 - 1.0.0 - Creating basic script.
 
+import pyfiglet,sys
+
+
+try:
+    ascii_banner = pyfiglet.figlet_format("BruteForce.PY")
+    print(ascii_banner)
+
+except KeyboardInterrupt:
+        print("\n/!\ Exiting Program !")
+        sys.exit()
