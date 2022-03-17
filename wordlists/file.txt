@@ -1,4 +1,5 @@
 oui
 non
 password
+debian
 user
